@@ -6,6 +6,15 @@
 
 #include <iostream>
 
+/**
+ * The linked list data structure is the dynamic alternative to the static array,
+ * utilizing a tree of nodes made of some input value and the memory address
+ * (or "link") to the next connecting node to store data at non-contiguous memory
+ * addresses. This type of heap storage has 0(1) lookup at the head of the list and
+ * O(n) lookup elsewhere.
+ *
+ * @tparam T the type of data stored in the data structure
+ */
 template <typename T>
 class LinkedList
 {
