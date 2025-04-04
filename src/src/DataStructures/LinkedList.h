@@ -17,7 +17,7 @@ private:
         Node* link; // memory address of NEXT item
     };
     
-    /// Deconstructor version of `delete_at`
+    /// Free memory from remaining list nodes.
     void free_list()
     {
         while (listSize > 0)
@@ -74,7 +74,7 @@ public:
         ++listSize;
     }
     
-    /// Break linking address and free memory at specific index [0, n]
+    /// Break linking node and free memory at specified index [0, listSize-1]
     void delete_at (size_t n)
     {
         Node* temp1 = head;
@@ -89,12 +89,13 @@ public:
             return;
         }
         
-        /// temp1 points to n-1th node
+        /// temp1 == node pushed after target node, [n-1]
         for (size_t i = 0; i < n - 1; ++i)
             temp1 = temp1->link;
         
-        Node* temp2 = temp1->link; //nth node
-        temp1->link = temp2->link; //n+1th node
+        /// temp2 ==  target node for deletion, [n]
+        Node* temp2 = temp1->link;
+        temp1->link = temp2->link; // n+1th node
         
         delete temp2;
         --listSize;

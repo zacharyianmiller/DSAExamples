@@ -9,22 +9,29 @@
 
 int main(int argc, const char * argv[]) {
 
-    /// Define type.
+    // Structure type for testing...
     DataStructureType dataStructureType = DataStructureType::LinkedList;
     
-    LinkedList<int> linkedList;
+    LinkedList<int> filo;
+    // ...
+    
     // ----------------------------------------------------------------------
     
     switch (dataStructureType)
     {
         case DataStructureType::LinkedList:
             
-            linkedList.insert(0);
-            linkedList.insert(1);
-            linkedList.insert(2);
-            linkedList.insert(3);
-            linkedList.print();
+            // Insert values
+            filo.insert(0);
+            filo.insert(1);
+            filo.insert(2);
+            filo.insert(3);
+            filo.print();
 
+            // Delete head node
+            filo.delete_at(0);
+            filo.print();
+            
             break;
             
         default: // None
