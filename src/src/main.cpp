@@ -12,7 +12,7 @@ int main(int argc, const char * argv[]) {
     // Structure type for testing...
     DataStructureType dataStructureType = DataStructureType::LinkedList;
     
-    LinkedList<int> filo;
+    LinkedList<int> list;
     // ...
     
     // ----------------------------------------------------------------------
@@ -22,15 +22,13 @@ int main(int argc, const char * argv[]) {
         case DataStructureType::LinkedList:
             
             // Insert values
-            filo.insert(0);
-            filo.insert(1);
-            filo.insert(2);
-            filo.insert(3);
-            filo.print();
-
-            // Delete head node
-            filo.delete_at(0);
-            filo.print();
+            list.insert(0);
+            list.insert(1);
+            list.insert(2);
+            list.insert(3);
+            
+            bool isReversed = true;
+            list.print (isReversed);
             
             break;
             
