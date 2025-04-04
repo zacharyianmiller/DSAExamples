@@ -19,9 +19,10 @@ int main(int argc, const char * argv[]) {
     {
         case DataStructureType::LinkedList:
             
-            linkedList.insertAt(0, 0);
-            linkedList.insertAt(1, 1);
-            
+            linkedList.insert(0);
+            linkedList.insert(1);
+            linkedList.insert(2);
+            linkedList.insert(3);
             linkedList.print();
 
             break;

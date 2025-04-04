@@ -16,22 +16,40 @@ private:
         T data; // some value
         Node* link; // memory address of NEXT item
     };
+    
+    /// Deconstructor version of `delete_at`
+    void free_list()
+    {
+        while (listSize > 0)
+        {
+            Node* temp1 = head;
+
+            head = temp1->link;
+            delete temp1;
+            --listSize;
+        }
+    }
+    
+    size_t listSize = 0;
 
 public:
     
     LinkedList() = default;
-    ~LinkedList() {};
+    ~LinkedList() { free_list(); };
     
+    /// Insert value at end of list.
     void insert (T x)
     {
         Node* temp = new Node;
         temp->data = x;
         temp->link = head;
         head = temp;
+        
+        ++listSize;
     }
     
-    /// Insert at specific index starting at n = 0.
-    void insertAt (T x, size_t n)
+    /// Insert value at specific index [0, n]
+    void insert_at (T x, size_t n)
     {
         Node* temp1 = new Node;
         temp1->data = x;
@@ -52,7 +70,37 @@ public:
         /// Update previous index with new link pointer.
         temp1->link = temp2->link;
         temp2->link = temp1;
+        
+        ++listSize;
     }
+    
+    /// Break linking address and free memory at specific index [0, n]
+    void delete_at (size_t n)
+    {
+        Node* temp1 = head;
+        
+        /// Delete last index.
+        if (n == 0)
+        {
+            /// Point head to following node (break link).
+            head = temp1->link;
+            delete temp1;
+            --listSize;
+            return;
+        }
+        
+        /// temp1 points to n-1th node
+        for (size_t i = 0; i < n - 1; ++i)
+            temp1 = temp1->link;
+        
+        Node* temp2 = temp1->link; //nth node
+        temp1->link = temp2->link; //n+1th node
+        
+        delete temp2;
+        --listSize;
+    }
+    
+    size_t size() { return listSize; }
     
     void print()
     {
