@@ -1,6 +1,5 @@
 //
-//  main.cpp
-//  linkedList
+//  linkedList.cpp
 //
 //  Created by Zachary Miller on 4/3/25.
 //
@@ -77,17 +76,3 @@ public:
     
     Node* head = NULL;
 };
-
-// ==============================================
-
-int main(int argc, const char * argv[]) {
-
-    LinkedList<int> linkedList;
-        
-    linkedList.insertAt(0, 0);
-    linkedList.insertAt(1, 1);
-    
-    linkedList.print();
-        
-    return 0;
-}
