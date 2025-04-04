@@ -26,20 +26,43 @@ private:
         Node* link; // memory address of NEXT item
     };
     
+    /// Reverse print using recursion. Does not affect intrinsic list order.
+    void reverse_print (Node* head)
+    {
+        if (head == NULL) return; // base
+        
+        reverse_print (head->link);
+        std::cout << " " << head->data;
+    }
+    
+    void recursive_reverse (Node* p)
+    {
+        if (p->link == NULL)
+        {
+            m_Head = p;
+            return;
+        }
+        
+        recursive_reverse (p->link);
+        p->link->link = p;
+        p->link = NULL;
+    }
+    
     /// Free memory from remaining list nodes.
     void free_list()
     {
-        while (listSize > 0)
+        while (m_ListSize > 0)
         {
-            Node* temp1 = head;
+            Node* temp1 = m_Head;
 
-            head = temp1->link;
+            m_Head = temp1->link;
             delete temp1;
-            --listSize;
+            --m_ListSize;
         }
     }
     
-    size_t listSize = 0;
+    size_t m_ListSize = 0;
+    Node* m_Head = NULL;
 
 public:
     
@@ -51,10 +74,10 @@ public:
     {
         Node* temp = new Node;
         temp->data = x;
-        temp->link = head;
-        head = temp;
+        temp->link = m_Head;
+        m_Head = temp;
         
-        ++listSize;
+        ++m_ListSize;
     }
     
     /// Insert value at specific index [0, n]
@@ -67,12 +90,12 @@ public:
         /// Insert at head (in empty list).
         if (n == 0)
         {
-            temp1->link = head;
-            head = temp1;
+            temp1->link = m_Head;
+            m_Head = temp1;
             return;
         }
         
-        Node* temp2 = head;
+        Node* temp2 = m_Head;
         for (size_t i = 0; i < n - 1; ++i)
             temp2 = temp2->link;
         
@@ -80,13 +103,13 @@ public:
         temp1->link = temp2->link;
         temp2->link = temp1;
         
-        ++listSize;
+        ++m_ListSize;
     }
     
-    /// Break linking node and free memory at specified index [0, listSize-1]
+    /// Break linking node and free memory at specified index [0, m_ListSize-1]
     void delete_at (size_t n)
     {
-        Node* temp1 = head;
+        Node* temp1 = m_Head;
 
         /// If head pointer is NULL, list is empty.
         if (temp1 == NULL)
@@ -99,9 +122,9 @@ public:
         if (n == 0)
         {
             /// Point head to following node (break link).
-            head = temp1->link;
+            m_Head = temp1->link;
             delete temp1;
-            --listSize;
+            --m_ListSize;
             return;
         }
         
@@ -114,36 +137,45 @@ public:
         temp1->link = temp2->link; // n+1th node
         
         delete temp2;
-        --listSize;
+        --m_ListSize;
     }
     
-    size_t size() { return listSize; }
+    size_t size() { return m_ListSize; }
     
-    /// Iterative reversal of the list.
-    void reverse()
+    /// Swap head and tail, reverse list elements.
+    void reverse (bool isRecursive)
     {
-        Node* temp = head;
-        if (temp == NULL)
-        {
-            std::cout << "ERROR: Avoid reversing empty list.\n";
-            return;
-        }
+        Node* temp = m_Head;
 
-        Node* current = head;
-        Node* prev = NULL; // tail
-        while (current != NULL)
-        {
-            Node* next = current->link;
-            current->link = prev;
-            prev = current;
-            current = next;
+        if (!isRecursive) { // iterative
+            
+            if (temp == NULL)
+            {
+                std::cout << "ERROR: Avoid reversing empty list.\n";
+                return;
+            }
+            
+            Node* current = m_Head;
+            Node* prev = NULL; // tail
+            while (current != NULL)
+            {
+                Node* next = current->link;
+                current->link = prev;
+                prev = current;
+                current = next;
+            }
+            m_Head = prev;
+            
+        } else { // recursive
+         
+            recursive_reverse (temp);
+            
         }
-        head = prev;
     }
     
     void print (bool isReversed)
     {
-        Node* temp = head; // head address
+        Node* temp = m_Head; // head address
         
         /// If head pointer is NULL, list is empty.
         if (temp == NULL)
@@ -171,16 +203,5 @@ public:
         std::cout << "\n";
     }
     
-    /// Reverse print using recursion. Does not affect intrinsic list order.
-    void reverse_print (Node* head)
-    {
-        if (head == NULL) return; // base
-        
-        reverse_print (head->link);
-        std::cout << " " << head->data;
-    }
-    
-    Node* getHead() { return head; }
-      
-    Node* head = NULL;
+    Node* getHead() { return m_Head; }
 };

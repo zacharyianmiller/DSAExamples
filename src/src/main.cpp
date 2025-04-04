@@ -27,8 +27,8 @@ int main(int argc, const char * argv[]) {
             list.insert(2);
             list.insert(3);
             
-            bool isReversed = true;
-            list.print (isReversed);
+            list.reverse (true);
+            list.print(false);
             
             break;
             
