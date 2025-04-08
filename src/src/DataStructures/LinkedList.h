@@ -43,8 +43,16 @@ private:
             return;
         }
         
+        /// Traverse head to tail.
         recursive_reverse (p->link);
         p->link->link = p;
+        
+        // ^^^
+        // Node* q = p->link;
+        // q->link = p;
+        // ...where q = node where head now points
+        //          p = the new next of q
+        
         p->link = NULL;
     }
     
